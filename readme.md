@@ -1,21 +1,21 @@
 ## Disclaimer
 
-You may find garbage code here 💀
+You may find garbage code here 💀 ( don't expect any commits to be named properly)
 
-## Learning django for the first time 👻
+## Learning django for the first time
 
 - Creating a django app for my course work 👾
 
 ## Project File Tree (being worked on)
 
 ```
-dj-project/
+dj-project/ # project root
 │   readme.md
 │
-├── djvenv/
+├── djvenv/ # virtual enironment
 │   └── ... (virtual environment files)
 │
-├── polls/
+├── polls/ # /poll route (app)
 │   ├── db.sqlite3
 │   ├── manage.py
 │   └── polls/

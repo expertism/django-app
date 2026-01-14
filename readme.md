@@ -12,36 +12,27 @@ You may find garbage code here 💀 ( don't expect any commits to be named prope
 django_world/ # project root
 │   readme.md
 │
-├── djvenv/ # virtual enironment
-│   └── ... (virtual environment files)
+├── templates/
+│    └── ... (main html files)
 │
-├── polls/ # /polls route (app)
-│   ├── db.sqlite3
-│   ├── manage.py
-│   └── polls/
-│       ├── __init__.py
-│       ├── admin.py
-│       ├── apps.py
-│       ├── models.py
-│       ├── tests.py
-│       ├── urls.py
-│       ├── views.py
-│       ├── migrations/
-│       └── templates/
+├── static/
+│    └── ... (all static files js & css)
 │
-├── django_wolrd/ # main controller & settings
+├── django_world/ # main controller & settings
 │   ├── __init__.py
 │   ├── asgi.py
 │   ├── settings.py
 │   ├── urls.py
 │   └── wsgi.py
 │
-└── mainweb/ # home page and its functionalities
-	├──
-	├──
-	└──
-```
-
-```
-
+├── hello_world/ # home directory for website (for now idk)
+│	├── ... (hello_world app files)
+│	└── migrations/
+│
+├── polls/ # /polls route (app)
+│   ├── ... (polls app files)
+│   ├── migrations/
+│   └── templates/
+│
+└── .../
 ```

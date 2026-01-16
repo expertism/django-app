@@ -25,7 +25,7 @@ django_world/ # project root
 │   ├── urls.py
 │   └── wsgi.py
 │
-├── hello_world/ # home directory for website (for now idk)
+├── hello_world/ # / route (for now idk)
 │	├── ... (hello_world app files)
 │	└── migrations/
 │

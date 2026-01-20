@@ -3,6 +3,6 @@ from django.http import HttpResponse
 from django.template import loader
 
 def home(request):
-    return render(request, 'index.html')
+    return render(request, 'main.html')
 
 # Create your views here.

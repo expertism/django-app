@@ -9,7 +9,7 @@ You may find garbage code here 💀 ( don't expect any commits to be named prope
 ## Project File Tree (being worked on)
 
 ```
-django_world/ # project root
+config/        # project root
 │   readme.md
 │
 ├── templates/
@@ -18,15 +18,15 @@ django_world/ # project root
 ├── static/
 │    └── ... (all static files js & css)
 │
-├── django_world/ # main controller & settings
+├── config/    # main controller & settings
 │   ├── __init__.py
 │   ├── asgi.py
 │   ├── settings.py
 │   ├── urls.py
 │   └── wsgi.py
 │
-├── hello_world/ # / route (for now idk)
-│	├── ... (hello_world app files)
+├── home/      # / route (home page)
+│	├── ... (home app files)
 │	└── migrations/
 │
 ├── polls/ # /polls route (app)

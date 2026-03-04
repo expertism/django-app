@@ -13,11 +13,20 @@
       type="text/css"
       href="{% static 'styles/navbar.css' %}"
     />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'styles/auth.css' %}"
-    />
+    {% block extra_css %}{% endblock %}
+    <script>
+      // Apply theme immediately to prevent flash
+      (function () {
+        var t = localStorage.getItem("theme-preference") || "system";
+        var e =
+          t === "system" || !t
+            ? window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light"
+            : t;
+        document.documentElement.setAttribute("data-theme", e);
+      })();
+    </script>
   </head>
   <body>
     {% include 'navbar.html' %} {% if messages %}
@@ -47,5 +56,6 @@
       {% endif %}
     </section>
     {% endblock %}
+    <script src="{% static 'js/theme.js' %}"></script>
   </body>
 </html>

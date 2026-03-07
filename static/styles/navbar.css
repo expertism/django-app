@@ -1,4 +1,8 @@
+/* Navbar layout */
 .nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   height: 56px;
   width: 100%;
   background-color: var(--primary);
@@ -6,94 +10,75 @@
   top: 0;
   z-index: 100;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
-.nav > .nav-header {
+/* Brand / logo */
+.nav-header {
   display: flex;
   align-items: center;
 }
 
-.nav > .nav-header > .nav-brand {
+.nav-brand {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 8px 14px 8px 20px;
   text-decoration: none;
   color: rgba(255, 255, 255, 0.85);
-  transition:
-    background-color var(--transition),
-    color var(--transition);
 }
 
-.nav > .nav-header > .nav-brand:visited {
+.nav-brand:visited {
   color: rgba(255, 255, 255, 0.85);
-  text-decoration: none;
 }
 
-.nav > .nav-header > .nav-brand:hover {
+.nav-brand:hover {
   background-color: rgba(255, 255, 255, 0.1);
   color: #fff;
-  text-decoration: none;
 }
 
-.nav > .nav-header .nav-logo {
+.nav-logo {
   width: 36px;
   height: 36px;
-  max-width: 36px;
-  max-height: 36px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
 }
 
-.nav .nav-header .nav-brand .nav-brand-text {
+.nav-brand-text {
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.85) !important;
   font-weight: 500;
-  letter-spacing: 0.3px;
-  text-decoration: none !important;
+  color: inherit;
 }
 
-.nav .nav-header .nav-brand:hover .nav-brand-text {
-  color: #fff !important;
-}
-
-.nav > .nav-btn {
+/* Mobile hamburger (hidden on desktop) */
+.nav-btn {
   display: none;
 }
 
-.nav > .nav-links {
+#nav-check {
+  display: none;
+}
+
+/* Nav links */
+.nav-links {
   display: flex;
   align-items: center;
   font-size: 16px;
 }
 
-.nav > .nav-links > a {
-  display: inline-block;
+.nav-links a {
   padding: 16px 14px;
   text-decoration: none;
-  text-align: center;
   color: rgba(255, 255, 255, 0.85);
   font-weight: 500;
-  letter-spacing: 0.3px;
-  transition:
-    background-color var(--transition),
-    color var(--transition);
 }
 
-.nav > .nav-links > a:hover {
+.nav-links a:hover {
   background-color: rgba(255, 255, 255, 0.1);
   color: #fff;
 }
 
-.nav > #nav-check {
-  display: none;
-}
-
-/* Theme dropdown */
+/* Theme picker dropdown */
 .theme-dropdown {
   position: relative;
   display: flex;
@@ -101,16 +86,14 @@
 }
 
 .theme-toggle {
+  display: flex;
+  align-items: center;
   background: none;
   border: none;
   cursor: pointer;
   padding: 8px 12px;
   font-size: 18px;
-  line-height: 1;
   border-radius: 6px;
-  transition: background-color var(--transition);
-  display: flex;
-  align-items: center;
 }
 
 .theme-toggle:hover {
@@ -122,26 +105,21 @@
   top: 100%;
   right: 0;
   margin-top: 6px;
-  background-color: var(--white);
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px;
+  min-width: 140px;
+  background-color: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
   box-shadow: var(--shadow);
-  padding: 4px;
-  min-width: 140px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-8px);
-  transition:
-    opacity var(--transition),
-    transform var(--transition),
-    visibility var(--transition);
+  color: var(--text);
   z-index: 200;
 }
 
 .theme-dropdown.open .theme-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
+  display: flex;
 }
 
 .theme-option {
@@ -156,71 +134,80 @@
   font-size: 14px;
   color: var(--text);
   border-radius: 6px;
-  transition: background-color var(--transition);
   text-align: left;
 }
 
 .theme-option:hover {
-  background-color: var(--bg);
+  background-color: var(--background);
 }
 
 .theme-option.active {
-  background-color: var(--bg);
+  background-color: var(--background);
   font-weight: 600;
   color: var(--accent);
 }
 
+/* Mobile nav */
 @media (max-width: 600px) {
   .nav {
     flex-wrap: wrap;
     height: auto;
     min-height: 56px;
   }
-  .nav > .nav-btn {
+
+  .nav-btn {
     display: inline-block;
     position: absolute;
     right: 0;
     top: 0;
   }
-  .nav > .nav-btn > label {
-    display: inline-block;
+
+  .nav-btn label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     width: 56px;
     height: 56px;
     padding: 16px;
     cursor: pointer;
   }
-  .nav > .nav-btn > label:hover,
-  .nav #nav-check:checked ~ .nav-btn > label {
+
+  .nav-btn label:hover,
+  #nav-check:checked ~ .nav-btn label {
     background-color: rgba(255, 255, 255, 0.1);
   }
-  .nav > .nav-btn > label > span {
+
+  .nav-btn label span {
     display: block;
     width: 25px;
     height: 10px;
     border-top: 2px solid #eee;
   }
-  .nav > .nav-links {
+
+  .nav-links {
     position: absolute;
-    display: block;
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    background-color: var(--primary);
-    height: 0;
-    transition: all 0.3s ease-in-out;
-    overflow-y: hidden;
     top: 56px;
     left: 0;
+    background-color: var(--primary);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    height: 0;
+    overflow-y: hidden;
   }
-  .nav > .nav-links > a {
-    display: block;
+
+  .nav-links a {
     width: 100%;
     padding: 14px 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   }
-  .nav > #nav-check:not(:checked) ~ .nav-links {
+
+  #nav-check:not(:checked) ~ .nav-links {
     height: 0;
   }
-  .nav > #nav-check:checked ~ .nav-links {
+
+  #nav-check:checked ~ .nav-links {
     height: calc(100vh - 56px);
     overflow-y: auto;
   }

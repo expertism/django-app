@@ -10,71 +10,72 @@
     const getEffectiveTheme = (pref) =>
         pref === "system" || !pref ? getSystemTheme() : pref;
 
-    const applyTheme = (pref) => {
-        const effective = getEffectiveTheme(pref);
-        document.documentElement.setAttribute("data-theme", effective);
-        // Update dropdown button icon
+    const THEME_ICONS = { system: "🖥️", dark: "🌙", light: "☀️" };
+
+    const setThemeAttribute = (pref) => {
+        document.documentElement.setAttribute("data-theme", getEffectiveTheme(pref));
+    };
+
+    const updateToggleIcon = (pref) => {
         const icon = document.querySelector(".theme-toggle-icon");
-        if (icon) {
-            if (pref === "system" || !pref) icon.textContent = "🖥️";
-            else if (pref === "dark") icon.textContent = "🌙";
-            else icon.textContent = "☀️";
-        }
-        // Update active state in dropdown
+        if (icon) icon.textContent = THEME_ICONS[pref || "system"];
+    };
+
+    const updateActiveOption = (pref) => {
         document.querySelectorAll(".theme-option").forEach((btn) => {
             btn.classList.toggle("active", btn.dataset.theme === (pref || "system"));
         });
     };
 
-    // Apply saved theme immediately (before DOM ready) to prevent flash
-    const saved = getStoredTheme() || "system";
-    document.documentElement.setAttribute(
-        "data-theme",
-        getEffectiveTheme(saved)
-    );
+    const applyTheme = (pref) => {
+        setThemeAttribute(pref);
+        updateToggleIcon(pref);
+        updateActiveOption(pref);
+    };
 
-    document.addEventListener("DOMContentLoaded", () => {
-        const pref = getStoredTheme() || "system";
-        applyTheme(pref);
+    setThemeAttribute(getStoredTheme() || "system");
 
-        // Dropdown toggle
+    const setupDropdownToggle = (dropdown) => {
         const toggle = document.querySelector(".theme-toggle");
-        const dropdown = document.querySelector(".theme-dropdown");
+        if (!toggle || !dropdown) return;
 
-        if (toggle && dropdown) {
-            toggle.addEventListener("click", (e) => {
-                e.stopPropagation();
-                dropdown.classList.toggle("open");
-            });
+        toggle.addEventListener("click", (e) => {
+            e.stopPropagation();
+            dropdown.classList.toggle("open");
+        });
 
-            // Close dropdown when clicking outside
-            document.addEventListener("click", () => {
-                dropdown.classList.remove("open");
-            });
+        document.addEventListener("click", () => {
+            dropdown.classList.remove("open");
+        });
 
-            dropdown.addEventListener("click", (e) => {
-                e.stopPropagation();
-            });
-        }
+        dropdown.addEventListener("click", (e) => {
+            e.stopPropagation();
+        });
+    };
 
-        // Theme option buttons
+    const setupThemeOptions = (dropdown) => {
         document.querySelectorAll(".theme-option").forEach((btn) => {
             btn.addEventListener("click", () => {
-                const theme = btn.dataset.theme;
-                setStoredTheme(theme);
-                applyTheme(theme);
+                setStoredTheme(btn.dataset.theme);
+                applyTheme(btn.dataset.theme);
                 dropdown.classList.remove("open");
             });
         });
+    };
 
-        // Listen for system theme changes
-        window
-            .matchMedia("(prefers-color-scheme: dark)")
+    const setupSystemThemeListener = () => {
+        window.matchMedia("(prefers-color-scheme: dark)")
             .addEventListener("change", () => {
                 const current = getStoredTheme() || "system";
-                if (current === "system") {
-                    applyTheme("system");
-                }
+                if (current === "system") applyTheme("system");
             });
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+        applyTheme(getStoredTheme() || "system");
+        const dropdown = document.querySelector(".theme-dropdown");
+        setupDropdownToggle(dropdown);
+        setupThemeOptions(dropdown);
+        setupSystemThemeListener();
     });
 })();

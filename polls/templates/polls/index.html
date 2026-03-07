@@ -1,20 +1,13 @@
-<!doctype html>
-{% extends 'index.html' %} {% block content %}
-<html>
-  <body>
-    {% if latest_question_list %}
-    <ul>
-      {% for question in latest_question_list %}
-      <li>
-        <a href="{% url 'polls:detail' question.id %}"
-          >{{ question.question_text }}</a
-        >
-      </li>
-      {% endfor %}
-    </ul>
-    {% else %}
-    <p>No polls are available.</p>
-    {% endif %}
-  </body>
-</html>
-{% endblock %}
+{% extends 'index.html' %} {% block content %} {% if questions %}
+<ul>
+  {% for question in questions %}
+  <li>
+    <a href="{% url 'polls:detail' question.id %}"
+      >{{ question.question_text }}</a
+    >
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No polls are available.</p>
+{% endif %} {% endblock %}

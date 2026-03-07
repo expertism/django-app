@@ -1,11 +1,11 @@
-/* Auth page centering */
+/* ===================== Auth Pages ===================== */
+
 .auth-container {
   display: flex;
   justify-content: center;
   padding: 80px 20px;
 }
 
-/* Auth card */
 .auth-card {
   display: flex;
   flex-direction: column;
@@ -53,7 +53,7 @@
 .form-group input:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15); /* accent glow ring */
   background: var(--surface);
 }
 
@@ -75,26 +75,24 @@
   background-color: var(--accent-hover);
 }
 
-/* Auth link (login/signup toggle) */
+/* Login / signup toggle link */
 .auth-link {
   text-align: center;
   margin-top: 20px;
   color: var(--text-muted);
   font-size: 14px;
 }
-
 .auth-link a {
   color: var(--accent);
   font-weight: 600;
   text-decoration: none;
 }
-
 .auth-link a:hover {
   color: var(--accent-hover);
   text-decoration: underline;
 }
 
-/* Help text below inputs */
+/* Help text below password fields */
 .help-text {
   font-size: 12px;
   color: var(--text-muted);
@@ -117,13 +115,13 @@
 }
 
 .alert-success {
-  background-color: var(--success-background);
+  background-color: var(--success-bg);
   color: var(--success);
   border: 1px solid rgba(46, 125, 50, 0.2);
 }
 
 .alert-error {
-  background-color: var(--error-background);
+  background-color: var(--error-bg);
   color: var(--error);
   border: 1px solid rgba(198, 40, 40, 0.2);
 }

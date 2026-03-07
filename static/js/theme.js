@@ -1,81 +1,56 @@
 (() => {
-    const STORAGE_KEY = "theme-preference";
+    const STORAGE_KEY = 'theme-preference';
+    const ICONS = { system: '🖥️', dark: '🌙', light: '☀️' };
 
-    const getStoredTheme = () => localStorage.getItem(STORAGE_KEY);
-    const setStoredTheme = (theme) => localStorage.setItem(STORAGE_KEY, theme);
+    // --- Helpers ---
 
-    const getSystemTheme = () =>
-        window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    const getStored = () => localStorage.getItem(STORAGE_KEY);
+    const setStored = (t) => localStorage.setItem(STORAGE_KEY, t);
+    const getSystem = () => matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    const resolve = (p) => (p === 'system' || !p) ? getSystem() : p;
 
-    const getEffectiveTheme = (pref) =>
-        pref === "system" || !pref ? getSystemTheme() : pref;
+    // --- Apply theme to DOM ---
 
-    const THEME_ICONS = { system: "🖥️", dark: "🌙", light: "☀️" };
+    function apply(pref) {
+        document.documentElement.setAttribute('data-theme', resolve(pref));
 
-    const setThemeAttribute = (pref) => {
-        document.documentElement.setAttribute("data-theme", getEffectiveTheme(pref));
-    };
+        const icon = document.querySelector('.theme-toggle-icon');
+        if (icon) icon.textContent = ICONS[pref || 'system'];
 
-    const updateToggleIcon = (pref) => {
-        const icon = document.querySelector(".theme-toggle-icon");
-        if (icon) icon.textContent = THEME_ICONS[pref || "system"];
-    };
-
-    const updateActiveOption = (pref) => {
-        document.querySelectorAll(".theme-option").forEach((btn) => {
-            btn.classList.toggle("active", btn.dataset.theme === (pref || "system"));
+        document.querySelectorAll('.theme-option').forEach((btn) => {
+            btn.classList.toggle('active', btn.dataset.theme === (pref || 'system'));
         });
-    };
+    }
 
-    const applyTheme = (pref) => {
-        setThemeAttribute(pref);
-        updateToggleIcon(pref);
-        updateActiveOption(pref);
-    };
+    // Apply early (before DOMContentLoaded) to prevent flash
+    apply(getStored() || 'system');
 
-    setThemeAttribute(getStoredTheme() || "system");
+    // --- Wire up controls after DOM is ready ---
 
-    const setupDropdownToggle = (dropdown) => {
-        const toggle = document.querySelector(".theme-toggle");
-        if (!toggle || !dropdown) return;
+    document.addEventListener('DOMContentLoaded', () => {
+        apply(getStored() || 'system');
 
-        toggle.addEventListener("click", (e) => {
-            e.stopPropagation();
-            dropdown.classList.toggle("open");
-        });
+        const dropdown = document.querySelector('.theme-dropdown');
+        const toggle = document.querySelector('.theme-toggle');
+        if (!dropdown || !toggle) return;
 
-        document.addEventListener("click", () => {
-            dropdown.classList.remove("open");
-        });
+        // Open / close dropdown
+        toggle.addEventListener('click', (e) => { e.stopPropagation(); dropdown.classList.toggle('open'); });
+        document.addEventListener('click', () => dropdown.classList.remove('open'));
+        dropdown.addEventListener('click', (e) => e.stopPropagation());
 
-        dropdown.addEventListener("click", (e) => {
-            e.stopPropagation();
-        });
-    };
-
-    const setupThemeOptions = (dropdown) => {
-        document.querySelectorAll(".theme-option").forEach((btn) => {
-            btn.addEventListener("click", () => {
-                setStoredTheme(btn.dataset.theme);
-                applyTheme(btn.dataset.theme);
-                dropdown.classList.remove("open");
+        // Theme option buttons
+        document.querySelectorAll('.theme-option').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                setStored(btn.dataset.theme);
+                apply(btn.dataset.theme);
+                dropdown.classList.remove('open');
             });
         });
-    };
 
-    const setupSystemThemeListener = () => {
-        window.matchMedia("(prefers-color-scheme: dark)")
-            .addEventListener("change", () => {
-                const current = getStoredTheme() || "system";
-                if (current === "system") applyTheme("system");
-            });
-    };
-
-    document.addEventListener("DOMContentLoaded", () => {
-        applyTheme(getStoredTheme() || "system");
-        const dropdown = document.querySelector(".theme-dropdown");
-        setupDropdownToggle(dropdown);
-        setupThemeOptions(dropdown);
-        setupSystemThemeListener();
+        // Re-apply if OS theme changes while "system" is selected
+        matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            if ((getStored() || 'system') === 'system') apply('system');
+        });
     });
 })();
